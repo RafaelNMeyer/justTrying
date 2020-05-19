@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+
+{% block body %}
+<section>
+    <h2>Login</h2>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <h4>{{ message }}</h4>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="{{url_for('login')}}" method="post">
+        <div class="form-group">
+            <label for="email_inpunt">Email or username</label>
+            <input type="text" class="form-control" name="email_username" id="email_input" autofocus value={{email_value}}>
+        </div>
+        <div class="form-group">
+            <label for="password_input">Password</label>
+            <input type="password" class="form-control" name="password" id="password_input">
+        </div>
+        <button class="btn btn-success">Submit</button>
+    </form>
+    <p>Not a member? <a href="{{url_for('register')}}">Sign up now!</a></p>
+</section>
+{% endblock %}

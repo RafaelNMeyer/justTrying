@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+
+{% block body %}
+
+<section>
+    <h2>Register</h2>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <h4 style="color: red;">{{ message }}</h4>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="{{url_for('register')}}" method="post">
+        <div class="form-group">
+            <label for="email_inpunt">Email address</label>
+            <input type="email" class="form-control" name="email" aria-describedby="emailHelp" id="email_input" autofocus value={{email_value}}>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="username_input">Username</label>
+            <input type="text" class="form-control" name="username" id="username_input" value={{username_value}}>
+        </div>
+        <div class="form-group">
+            <label for="password_input">Password</label>
+            <input type="password" class="form-control" name="password" id="password_input">
+        </div>
+        <div class="form-group">
+            <label for="repeat_input">Repeat your password</label>
+            <input type="password" class="form-control" name="pass-again" id="repeat_input">
+        </div>
+        <button class="btn btn-success">Submit</button>
+    </form>
+
+    <p>Alredy a member? <a href="{{url_for('login')}}">Login now!</a></p>
+</section>
+
+{% endblock %}

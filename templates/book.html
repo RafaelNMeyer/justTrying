@@ -1,0 +1,89 @@
+{% extends "bookreview.html"%}
+
+
+{% block body %}
+<section class="container">
+  {% for book in book: %}
+  <table class="table table-hover">
+    <tbody>
+      <tr>
+        <th scope="row">Title:</th>
+        <td>{{book.title}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Author:</th>
+        <td>{{book.author}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Year:</th>
+        <td>{{book.year}}</td>
+      </tr>
+      <tr>
+        <th scope="row">ISBN:</th>
+        <td>{{book.isbn}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <th scope="row">Rate average:</th>
+        <td>{{rate_average}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Rate count:</th>
+        <td>{{rate_count}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<section class="mt-5">
+  <h3>Write a review</h3>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <h4>{{ message }}</h4>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  {% for book in book: %}
+  <form class="form-group shadow-textarea" action="{{url_for('book', book_isbn=book.isbn)}}" method="POST">
+    <div>
+      <div class="btn-group btn-group-toggle mt-1" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+          <input type="radio" name="radio_rate" value="1" {{one}}>1
+        </label>
+
+        <label class="btn btn-secondary">
+          <input type="radio" name="radio_rate" value="2" {{two}}>2
+        </label>
+
+        <label class="btn btn-secondary">
+          <input type="radio" name="radio_rate" value="3" {{three}}>3
+        </label>
+
+        <label class="btn btn-secondary">
+          <input type="radio" name="radio_rate" value="4" {{four}}>4
+        </label>
+
+        <label class="btn btn-secondary">
+          <input type="radio" name="radio_rate" value="5" {{five}}>5
+        </label>
+      </div>
+      {% endfor %}
+      <textarea class="form-control mt-1" name="review" rows="7" style="resize: none;"></textarea>
+      <button class="btn btn-success mt-1">Submit</button>
+  </form>
+</section>
+
+<section class="mt-4">
+  <div style="border-bottom: 1px solid rgba(92, 92, 92, 0.774);">
+    <h2>Community reviews</h2>
+  </div>
+  <div class="ml-3 mt-4"></div>
+  {% for review in reviews %}
+  <h4><a href="#">{{review.username.capitalize()}}</a> rated it: {{review.rate}}</h4>
+  <p class="ml-4">{{review.review}}</p>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+
+{% block heading %}
+<header class="container">
+    <div class="row justify-content-center m-5">
+        <h1>Bookreads</h1>
+    </div>
+    <div class="row justify-content-center m-5">
+        <a href="{{url_for('index')}}">Logout</a>
+    </div>
+    <div class="row justify-content-center m-5">
+        <a href="{{url_for('bookreview')}}">Search</a>
+    </div>
+</header>
+{% endblock %}
+{% block body %}
+
+<section>
+    <form class="form-group" action="{{url_for('bookreview')}}" method="post">
+        <label for="search">Search</label>
+        <input type="text" class="form-control" name="search" value={{inside_search}}>
+        <div class="text-center">
+            <div class="btn-group btn-group-toggle mt-1" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                    <input type="radio" name="radio_search" value="all" {{all}}>All
+                </label>
+
+                <label class="btn btn-secondary">
+                    <input type="radio" name="radio_search" value="isbn" {{isbn}}>ISBN
+                </label>
+
+                <label class="btn btn-secondary">
+                    <input type="radio" name="radio_search" value="title" {{title}}>Title
+                </label>
+
+                <label class="btn btn-secondary">
+                    <input type="radio" name="radio_search" value="author" {{author}}>Author
+                </label>
+
+                <label class="btn btn-secondary">
+                    <input type="radio" name="radio_search" value="year" {{year}}>Year
+                </label>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary mt-2">Search</button>
+        </div>
+    </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <h3>{{ message }}</h3>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <section class="container">
+        <table class="table table-hover">
+            {% if not books %}
+            {% else %}
+            <thead>
+                <th scope="col">Title:</th>
+                <th scope="col">Author:</th>
+                <th scope="col">Year:</th>
+            </thead>
+            {% endif %}
+            <tbody>      
+                {% for book in books: %}  
+                    <tr>
+                        <td><a href="{{url_for('book', book_isbn=book.isbn)}}">{{book.title}}</a></td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.year}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </section>
+</section>
+
+{% endblock %}
